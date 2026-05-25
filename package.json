@@ -1,7 +1,7 @@
 {
   "name": "lesson-08-jarvis",
   "version": "1.0.0",
-  "description": "Lesson 08 homework: Telegram voice assistant with Deepgram STT and OpenAI LLM.",
+  "description": "Lesson 08 homework: Telegram voice assistant with Deepgram STT and Groq LLM.",
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",

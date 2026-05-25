@@ -14,7 +14,10 @@ export type LlmOptions = {
 };
 
 export async function askJarvis({ apiKey, model, input }: LlmOptions): Promise<string> {
-  const client = new OpenAI({ apiKey });
+  const client = new OpenAI({
+    apiKey,
+    baseURL: "https://api.groq.com/openai/v1"
+  });
 
   const completion = await client.chat.completions.create({
     model,
@@ -27,7 +30,7 @@ export async function askJarvis({ apiKey, model, input }: LlmOptions): Promise<s
 
   const answer = completion.choices[0]?.message?.content?.trim();
   if (!answer) {
-    throw new Error("OpenAI returned an empty assistant response.");
+    throw new Error("Groq returned an empty assistant response.");
   }
 
   return answer;

@@ -69,8 +69,8 @@ export function createTelegramBot(config: Config): Bot {
         mimeType: ctx.message.voice.mime_type ?? "audio/ogg"
       });
       assistantResponse = await askJarvis({
-        apiKey: config.openAiApiKey,
-        model: config.openAiChatModel,
+        apiKey: config.groqApiKey,
+        model: config.groqChatModel,
         input: transcript
       });
 
@@ -110,8 +110,8 @@ export function createTelegramBot(config: Config): Bot {
 
     try {
       assistantResponse = await askJarvis({
-        apiKey: config.openAiApiKey,
-        model: config.openAiChatModel,
+        apiKey: config.groqApiKey,
+        model: config.groqChatModel,
         input
       });
 

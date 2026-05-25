@@ -4,8 +4,8 @@ export type Config = {
   telegramBotToken: string;
   allowedUserIds: Set<number>;
   deepgramApiKey: string;
-  openAiApiKey: string;
-  openAiChatModel: string;
+  groqApiKey: string;
+  groqChatModel: string;
 };
 
 function requiredEnv(name: string): string {
@@ -35,7 +35,7 @@ export function loadConfig(): Config {
     telegramBotToken: requiredEnv("TELEGRAM_BOT_TOKEN"),
     allowedUserIds: parseAllowedUserIds(requiredEnv("TELEGRAM_ALLOWED_USER_IDS")),
     deepgramApiKey: requiredEnv("DEEPGRAM_API_KEY"),
-    openAiApiKey: requiredEnv("OPENAI_API_KEY"),
-    openAiChatModel: process.env.OPENAI_CHAT_MODEL?.trim() || "gpt-4o-mini"
+    groqApiKey: requiredEnv("GROQ_API_KEY"),
+    groqChatModel: process.env.GROQ_CHAT_MODEL?.trim() || "llama-3.1-8b-instant"
   };
 }

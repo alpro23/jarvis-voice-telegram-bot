@@ -1,6 +1,6 @@
 # Lesson 08: Jarvis Telegram Voice Assistant
 
-Minimal homework project for Lesson 08. The bot accepts Telegram voice messages, transcribes them with Deepgram, sends the transcript to an OpenAI chat model, and replies in Telegram with both the transcript and a Jarvis-style answer.
+Minimal homework project for Lesson 08. The bot accepts Telegram voice messages, transcribes them with Deepgram, sends the transcript to a Groq-hosted chat model, and replies in Telegram with both the transcript and a Jarvis-style answer.
 
 Text messages are supported as a fallback: text goes directly to the LLM and the bot replies with text.
 
@@ -10,7 +10,7 @@ Text messages are supported as a fallback: text goes directly to the LLM and the
 - TypeScript
 - grammY for Telegram Bot API polling
 - Deepgram Speech-to-Text through REST API
-- OpenAI official SDK for LLM replies
+- Groq LLM through an OpenAI-compatible API client
 - Local JSONL interaction log
 
 ## Setup
@@ -33,8 +33,8 @@ Fill `.env` with real values. Do not commit `.env`.
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_ALLOWED_USER_IDS=
 DEEPGRAM_API_KEY=
-OPENAI_API_KEY=
-OPENAI_CHAT_MODEL=
+GROQ_API_KEY=
+GROQ_CHAT_MODEL=llama-3.1-8b-instant
 ```
 
 `TELEGRAM_ALLOWED_USER_IDS` is a comma-separated allowlist, for example:
