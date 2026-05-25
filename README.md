@@ -1,6 +1,6 @@
 # Lesson 08: Jarvis Telegram Voice Assistant
 
-Minimal homework project for Lesson 08. The bot accepts Telegram voice messages, transcribes them with Deepgram, sends the transcript to a Groq-hosted chat model, and replies in Telegram with both the transcript and a Jarvis-style answer.
+Minimal homework project for Lesson 08. The bot accepts Telegram voice messages, transcribes them with Deepgram, sends the transcript to a Groq-hosted chat model, and replies in Telegram with both text and a Jarvis-style voice note.
 
 Text messages are supported as a fallback: text goes directly to the LLM and the bot replies with text.
 
@@ -9,7 +9,7 @@ Text messages are supported as a fallback: text goes directly to the LLM and the
 - Node.js 20+
 - TypeScript
 - grammY for Telegram Bot API polling
-- Deepgram Speech-to-Text through REST API
+- Deepgram Speech-to-Text and Text-to-Speech through REST API
 - Groq LLM through an OpenAI-compatible API client
 - Local JSONL interaction log
 
@@ -33,8 +33,10 @@ Fill `.env` with real values. Do not commit `.env`.
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_ALLOWED_USER_IDS=
 DEEPGRAM_API_KEY=
+DEEPGRAM_TTS_MODEL=aura-2-thalia-en
 GROQ_API_KEY=
 GROQ_CHAT_MODEL=llama-3.1-8b-instant
+TELEGRAM_REPLY_WITH_VOICE=true
 ```
 
 `TELEGRAM_ALLOWED_USER_IDS` is a comma-separated allowlist, for example:
@@ -74,8 +76,9 @@ Jarvis:
 <LLM answer>
 ```
 
-7. Send a normal text message.
-8. Expected reply: a Jarvis-style text answer.
+7. Expected second reply: a Telegram voice note with the Jarvis answer.
+8. Send a normal text message.
+9. Expected reply: a Jarvis-style text answer plus a Telegram voice note.
 
 Each processed or ignored interaction is appended to:
 

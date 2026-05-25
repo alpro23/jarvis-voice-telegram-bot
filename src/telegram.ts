@@ -1,7 +1,8 @@
-import { Bot, Context } from "grammy";
+import { Bot, Context, InputFile } from "grammy";
 import { transcribeAudio } from "./deepgram.js";
 import { askJarvis } from "./llm.js";
 import { logInteraction } from "./logger.js";
+import { synthesizeSpeech } from "./tts.js";
 import type { Config } from "./config.js";
 
 function userIdFromContext(ctx: Context): number | undefined {
@@ -47,6 +48,25 @@ function formatVoiceReply(transcript: string, answer: string): string {
   return [`Transcript:`, transcript, "", `Jarvis:`, answer].join("\n");
 }
 
+async function replyWithJarvisVoice(ctx: Context, config: Config, text: string): Promise<void> {
+  if (!config.telegramReplyWithVoice) {
+    return;
+  }
+
+  try {
+    const audio = await synthesizeSpeech({
+      apiKey: config.deepgramApiKey,
+      model: config.deepgramTtsModel,
+      text
+    });
+
+    await ctx.replyWithVoice(new InputFile(audio, "jarvis-reply.ogg"));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    await ctx.reply(`Jarvis voice reply failed: ${message}`);
+  }
+}
+
 export function createTelegramBot(config: Config): Bot {
   const bot = new Bot(config.telegramBotToken);
 
@@ -75,6 +95,7 @@ export function createTelegramBot(config: Config): Bot {
       });
 
       await ctx.reply(formatVoiceReply(transcript, assistantResponse));
+      await replyWithJarvisVoice(ctx, config, assistantResponse);
       await logInteraction({
         timestamp,
         telegramUserId: userId!,
@@ -116,6 +137,7 @@ export function createTelegramBot(config: Config): Bot {
       });
 
       await ctx.reply(assistantResponse);
+      await replyWithJarvisVoice(ctx, config, assistantResponse);
       await logInteraction({
         timestamp,
         telegramUserId: userId!,
